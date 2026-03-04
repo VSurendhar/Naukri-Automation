@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 
 from dotenv import load_dotenv
@@ -30,6 +31,11 @@ profile_summary1 = os.getenv("PROFILE_SUMMARY_1")
 profile_summary2 = os.getenv("PROFILE_SUMMARY_2")
 profile_summary3 = os.getenv("PROFILE_SUMMARY_3")
 
+if email is None or password is None or profile_summary1 is None or profile_summary2 is None or profile_summary3 is None:
+    print("Please set environment variables")
+    driver.quit()
+    sys.exit(1)
+
 driver.get("https://duckduckgo.com")
 
 input_element = driver.find_element(By.ID, "searchbox_input")
@@ -56,6 +62,25 @@ password_input = wait.until(
 )
 password_input.send_keys(password)
 password_input.send_keys(Keys.ENTER)
+
+def check_login_status(d):
+    err = d.find_elements(By.CLASS_NAME, "server-err")
+    if err and err[0].is_displayed():
+        return "error"
+    drawer = d.find_elements(By.CLASS_NAME, "nI-gNb-drawer")
+    if drawer and drawer[0].is_displayed():
+        return "success"
+    return False
+
+
+login_status = wait.until(check_login_status)
+
+if login_status == "error":
+    now = datetime.now()
+    formatted_time = now.strftime("%d-%m-%Y %H:%M:%S")
+    print("Invalid details. Please check the Email ID - Password combination. " + formatted_time)
+    driver.quit()
+    sys.exit(1)
 
 drawer_icon = wait.until(
     ec.element_to_be_clickable((By.CLASS_NAME, "nI-gNb-drawer"))
