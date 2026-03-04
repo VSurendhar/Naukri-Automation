@@ -1,9 +1,6 @@
 #!/bin/zsh
 set -e
 
-# Load env vars
-source ~/.zshrc
-
 # Go to project folder
 cd ~/CodingProjects/PythonProjects/NaukriAutomation/
 

@@ -31,9 +31,24 @@ profile_summary1 = os.getenv("PROFILE_SUMMARY_1")
 profile_summary2 = os.getenv("PROFILE_SUMMARY_2")
 profile_summary3 = os.getenv("PROFILE_SUMMARY_3")
 
-if email is None or password is None or profile_summary1 is None or profile_summary2 is None or profile_summary3 is None:
-    print("Please set environment variables")
-    driver.quit()
+telegram_token = os.getenv("TELEGRAM_TOKEN")
+chat_id = os.getenv("CHAT_ID")
+
+# Validate environment variables
+missing_vars = []
+if not email: missing_vars.append("NAUKRI_EMAIL")
+if not password: missing_vars.append("NAUKRI_PASSWORD")
+if not profile_summary1: missing_vars.append("PROFILE_SUMMARY_1")
+if not profile_summary2: missing_vars.append("PROFILE_SUMMARY_2")
+if not profile_summary3: missing_vars.append("PROFILE_SUMMARY_3")
+
+if missing_vars:
+    now = datetime.now()
+    formatted_time = now.strftime("%d-%m-%Y %H:%M:%S")
+    print(f"Error: Missing environment variables: {', '.join(missing_vars)}" + formatted_time)
+    print("Please check your .env file.")
+    if 'driver' in locals() or 'driver' in globals():
+        driver.quit()
     sys.exit(1)
 
 driver.get("https://duckduckgo.com")
@@ -62,6 +77,7 @@ password_input = wait.until(
 )
 password_input.send_keys(password)
 password_input.send_keys(Keys.ENTER)
+
 
 def check_login_status(d):
     err = d.find_elements(By.CLASS_NAME, "server-err")
@@ -126,5 +142,5 @@ summary_save_btn = wait.until(
 
 summary_save_btn.click()
 
-time.sleep(6)
+time.sleep(5)
 driver.quit()
