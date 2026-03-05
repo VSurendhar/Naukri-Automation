@@ -20,8 +20,20 @@ Manually updating your profile every morning is tedious — and easy to forget. 
 4. **Finds the Profile Summary section** on your profile page
 5. **Rotates to the next summary variant** (from your 3 pre-defined versions)
 6. **Saves the update** — triggering Naukri's "recently updated" signal
+7. **Uploads your Resume** — This acts as a secondary "profile updated" signal. By re-uploading the resume file, you double the signals sent to Naukri's ranking algorithm, ensuring maximum visibility.
 
 > 💡 The summary rotation ensures each update is genuinely different from the last, which prevents Naukri's algorithm from treating it as a duplicate update.
+
+---
+
+## 📄 Dynamic Resume Fetching
+
+The script is designed to be fully automated and maintainable without hardcoding specific filenames. Instead of pointing to a single file, it uses a **Dynamic Folder Strategy**:
+
+- It looks into a designated folder (e.g., `~/Desktop/Personal/resume`).
+- It automatically identifies and selects the **first file** found in that directory.
+- This allows you to update your resume file in that folder without ever having to modify the script's source code.
+
 
 ---
 
