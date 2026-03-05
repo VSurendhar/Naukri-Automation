@@ -13,6 +13,13 @@ from datetime import datetime
 
 load_dotenv()
 
+resume_folder = "/Users/novosoftsolutions/Desktop/Personal/resume"
+resume_files = [f for f in os.listdir(resume_folder) if os.path.isfile(os.path.join(resume_folder, f)) and not f.startswith('.')]
+if not resume_files:
+    print(f"Error: No files found in {resume_folder}")
+    sys.exit(1)
+resume_path = os.path.join(resume_folder, resume_files[0])
+print(f"Using resume: {resume_path}")
 
 def norm(s: str) -> str:
     return " ".join(s.replace("\r\n", "\n").replace("\r", "\n").split())
@@ -141,6 +148,14 @@ summary_save_btn = wait.until(
 )
 
 summary_save_btn.click()
+
+
+cross_btn = driver.find_element(By.CLASS_NAME, "crossLayer")
+driver.execute_script("arguments[0].click();", cross_btn)
+
+file_input = driver.find_element(By.XPATH, "//input[@type='file']")
+file_input.send_keys(resume_path)
+
 
 time.sleep(5)
 driver.quit()
